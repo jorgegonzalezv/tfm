@@ -5,6 +5,8 @@ import pandas as pd
 
 DIR = os.path.join("/Users","jorge", "prueba-crest", "dataset")
 
+SUPERSIZE = 4 # TODO from config?
+
 # read annotations
 labels = pd.read_csv(os.path.join(DIR, "debug.txt"), header=None)
 
@@ -18,25 +20,17 @@ for _, row in labels.iterrows():
     ax.imshow(im)
 
     # flip vertical axis
-    xmax, ymax, xmin, ymin = row[1:5]
+    xmax, ymax, xmin, ymin = row[1:5] * SUPERSIZE
     ymax = im_h - ymax 
     ymin = im_h - ymin # true ymax
 
     # add bbox
     w = abs(xmax - xmin) 
     h = abs(ymax - ymin)
-    # w = 100
-    # h = 100
 
     padding = 0
     originX = min(xmin, xmax) - padding # min(row[1], row[3]) - padding 
     originY = min(ymin, ymax) - padding # min(row[2], row[4]) - padding
-
-    # print(im_h, row[6])
-    # originX = row[5]
-    # originY = im_h - row[6]
-    # # print(im_w, im_h)
-    # # print(">> ",originX, originY)
 
     rect = patches.Rectangle((originX, originY), w + 2 * padding, h + 2 * padding, linewidth=1, edgecolor='r', facecolor='none')
     ax.add_patch(rect)
