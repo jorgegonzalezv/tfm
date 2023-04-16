@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class screen_shot : MonoBehaviour
+public class ScreenShot : MonoBehaviour
 {
     int counter = 0;
     int superSize = 4;
