@@ -46,9 +46,9 @@ public class SceneManager : MonoBehaviour
 		objects.Add(person);
 
         // set unvisible bounding spheres
-        for(int i=0; i<objects.Count; i++){
-            objects[i].transform.Find("Bounding").gameObject.GetComponent<Renderer>().enabled = false;
-        }
+        // for(int i=0; i<objects.Count; i++){
+        //     objects[i].transform.Find("Bounding").gameObject.GetComponent<Renderer>().enabled = false;
+        // }
 
         Reset();
     }

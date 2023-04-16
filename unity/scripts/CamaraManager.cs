@@ -57,7 +57,7 @@ public class CamaraManager: MonoBehaviour{
     }
 
     void Randomize(){
-        // TODO
+        // TODO random altura del dron
         target_position = new Vector3(7.0f, 0.0f, -4.0f);
         offset = new Vector3(0.0f, 30.0f, -100.0f);
     }
