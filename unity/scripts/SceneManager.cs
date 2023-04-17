@@ -94,7 +94,7 @@ public class SceneManager : MonoBehaviour
         // get gameobject pixel position
         var path = "dataset/debug.txt";
         var createText = "";
-        var points = ObjectDection.Get_object_bounding_box(selected_object, cam);
+        var points = ObjectDection.getObjectBoundingBox(selected_object, cam);
         createText = counter+","+points[0]+"," +points[1]+","+points[2]+"," +points[3]+"\n";
         File.AppendAllText(path, createText);
     }

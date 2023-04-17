@@ -9,7 +9,7 @@ namespace tfm {
         Get bounding box around given game object. 
         Credit to: https://gist.github.com/ZackAkil/ce6604fd5ac008756f938047ce73d9d5
         */
-        public static List<float> Get_object_bounding_box(GameObject game_object, Camera cam)
+        public static List<float> getObjectBoundingBox(GameObject game_object, Camera cam)
         {
             // This is a relativly intense way as it is looking at each mesh point to calculate the bounding box.
             // but it produces perfect bounding boxes so yolo.
@@ -45,8 +45,8 @@ namespace tfm {
 
     public class Randomize {
         
-        public static int randomInt(int a, int b){
-            return 10;
+        public static int randomInt(int lower, int upper){
+            return Random.Range(lower, upper);
         }
     }
 
