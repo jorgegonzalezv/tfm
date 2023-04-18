@@ -17,7 +17,6 @@ public class SceneManager : MonoBehaviour
     private CamaraManager cameraManager;  // evitar?
 
     public Vector3 center_point = new Vector3(7.0f, 0.0f, -4.0f);
-    public Vector3 offset = new Vector3(0.0f, 30.0f, -100.0f);
     public float delta_t = 0.3f;
 
     // ocean
@@ -74,7 +73,7 @@ public class SceneManager : MonoBehaviour
         //foo.GetComponent<Renderer>().enabled = false;
 
         // 3. define dron flight
-        cameraManager.Reset(center_point, offset);  // quizas puede hacerse directamente en camaraManager
+        cameraManager.Reset(center_point);  // quizas puede hacerse directamente en camaraManager
     }
 
     /*

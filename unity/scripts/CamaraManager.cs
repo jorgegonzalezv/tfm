@@ -12,13 +12,16 @@ public class CamaraManager: MonoBehaviour{
 
     // how far from the target it will be
     private Vector3 offset;
-
     private Vector3 offset_init = new Vector3(0.0f, 30.0f, -100.0f);
-    private Vector3 offset_end = new Vector3(0.0f, 10.0f, -100.0f);
 
     // speed of camera(drone) flight
     private float smoothSpeed = 0.125f;
     private float delta_t = 0.3f;
+
+    // dataset parameters
+    private int reset_counter;
+    private float[] flight_height = {5, 10, 15, 20, 30, 40, 50, 60};
+
 
     void start(){
         offset = offset_init;
@@ -26,9 +29,9 @@ public class CamaraManager: MonoBehaviour{
 
     void LateUpdate(){  
         // update offset of camera as a drone flight
-        if (offset[2] >= 100){
-           offset = offset_end;
-        }
+        // if (offset[2] >= 100){
+        //    offset = offset_end;
+        // }
         offset = offset + new Vector3(0.0f, 0.0f, 1.0f) * delta_t;
         Vector3 desiredPosition = target_position + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
@@ -36,14 +39,12 @@ public class CamaraManager: MonoBehaviour{
         transform.LookAt(target_position);
     }
 
-    public void Reset(Vector3 target_position_, Vector3 target_offset){
-        if (offset[1] == 30){
-            offset[1] = Randomize.randomInt(5, 40); // random flight height, better define
-        }else {
-            offset = offset_init;
-        }
+    public void Reset(Vector3 target_position_){
         target_position = target_position_;
-        // offset = target_offset;
+        offset = offset_init;
+        offset[1] = flight_height[reset_counter];
+        
+        reset_counter += 1;
         Debug.Log("Drone height: " + offset[1]);
     }
 }
