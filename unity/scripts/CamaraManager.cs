@@ -19,7 +19,7 @@ public class CamaraManager: MonoBehaviour{
     private float delta_t = 0.3f;
 
     // dataset parameters
-    private int reset_counter;
+    // private int reset_counter;
     private float[] flight_height = {5, 10, 15, 20, 30, 40, 50, 60};
 
 
@@ -39,12 +39,14 @@ public class CamaraManager: MonoBehaviour{
         transform.LookAt(target_position);
     }
 
-    public void Reset(Vector3 target_position_){
-        target_position = target_position_;
+    public void Reset(int reset_counter){
+        reset_counter = reset_counter % flight_height.Length;
+
+        // target_position = target_position_;
         offset = offset_init;
         offset[1] = flight_height[reset_counter];
         
-        reset_counter += 1;
-        Debug.Log("Drone height: " + offset[1]);
+        // reset_counter += 1;
+        // Debug.Log("Drone height: " + offset[1] + " Counter: "+ reset_counter);
     }
 }

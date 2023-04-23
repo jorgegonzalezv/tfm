@@ -10,6 +10,7 @@ public class SceneManager : MonoBehaviour
     // global configuration
     private int counter = 0;
     private int reset_counter = 0;
+    private int[] reset_counters = {0, 0};
 
     // camera
     public Camera cam;
@@ -36,8 +37,7 @@ public class SceneManager : MonoBehaviour
     void Start() {
         // 0. init periodic tasks
         InvokeRepeating("SaveGroundTruthAll", 2.0f, 1.0f);
-        InvokeRepeating("Reset", 2.0f, 5.0f);
-
+        InvokeRepeating("Reset", 2.0f, 7.0f);
 
         // 0. init variables
 		objects.Add(boat1);
@@ -49,6 +49,11 @@ public class SceneManager : MonoBehaviour
         //     objects[i].transform.Find("Bounding").gameObject.GetComponent<Renderer>().enabled = false;
         // }
 
+        // get managers
+        oceanManager = ocean.GetComponent<OceanManager>();
+        cameraManager = camera.GetComponent<CamaraManager>();
+
+        // reset scene with random params
         Reset();
     }
 
@@ -56,24 +61,35 @@ public class SceneManager : MonoBehaviour
         Reset scene with random parameters.
     */
     void Reset(){
-        // reset scene with random params
-        oceanManager = ocean.GetComponent<OceanManager>();
-        cameraManager = camera.GetComponent<CamaraManager>();
-
-        // TODO POR AQUI!!!
+        reset_counter = (reset_counter + 1) % reset_counters.Length;
+        reset_counters[reset_counter] += 1;  // TODO reset cuando se hayan barrido todos los angulos de camara
+        Debug.Log("Reset counters: "+ reset_counters[0] + " " + reset_counters[1] );
+        
         // 1. set up ocean conditions
-        oceanManager.Reset();  // quizas puede hacerse directamente en camaraManager
+        oceanManager.Reset(reset_counters[0]);  // quizas puede hacerse directamente en camaraManager
 
         // 2. set up scene objects
-        boat1.transform.position = new Vector3(0.0f, 0.0f, -4.0f);
-        boat2.transform.position = new Vector3(7.0f, 0.0f, -4.0f);
-        person.transform.position = new Vector3(14.0f, 0.0f, -4.0f);
+       ResetObjects();
         
+        // 3. define dron flight
+        cameraManager.Reset(reset_counters[1]);  // quizas puede hacerse directamente en camaraManager
+    }
+    void ResetObjects(){
+        // TODO POR AQUI!!!
+        // boat1.transform.position = new Vector3(0.0f, 0.0f, -4.0f);
+        // boat2.transform.position = new Vector3(7.0f, 0.0f, -4.0f);
+        // person.transform.position = new Vector3(14.0f, 0.0f, -4.0f);
+        
+        Vector3 random_translation = new Vector3(Randomize.randomFloat(-10, 10), -0.5f, Randomize.randomFloat(-10, 10));
+        boat1.transform.position =  boat1.transform.position + random_translation;
+
+        random_translation = new Vector3(Randomize.randomFloat(-10, 10), -0.5f, Randomize.randomFloat(-10, 10));
+        boat2.transform.position = new Vector3(7.0f, 0.0f, -4.0f) + random_translation;
+        
+        random_translation = new Vector3(Randomize.randomFloat(-10, 10), -0.5f, Randomize.randomFloat(-10, 10));
+        person.transform.position = new Vector3(14.0f, 0.0f, -4.0f) + random_translation;
         // set unvisible non-participant objects
         //foo.GetComponent<Renderer>().enabled = false;
-
-        // 3. define dron flight
-        cameraManager.Reset(center_point);  // quizas puede hacerse directamente en camaraManager
     }
 
     /*

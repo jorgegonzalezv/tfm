@@ -13,13 +13,15 @@ public class OceanManager : MonoBehaviour
     private ShapeFFT wavesRenderer;
 
     // dataset parameters
-    private int reset_counter;
+    // private int reset_counter;
 
     // ocean
-    private float[] globalWindSpeed = {0, 10, 20, 30, 50, 70, 90, 120};
-    // waves
-    private float[] waveWindWeight = {0f, 0.1f, 0.2f, 0.3f, 0.5f, 0.7f, 0.9f, 1f}; // es de las waves
+    // globalwindspeed
 
+    // waves
+    private float[] windSpeed = {0, 10, 20, 30, 50, 70, 90, 120};
+    private float[] waveWindWeight = {0f, 0.1f, 0.2f, 0.3f, 0.5f, 0.7f, 0.9f, 1f};
+    private float[] waveAngle = {-180, -100, -20, 0, 50, 70, 90, 120};
 
     // Start is called before the first frame update
     void Start(){
@@ -32,16 +34,19 @@ public class OceanManager : MonoBehaviour
         
     }
 
-    public void Reset(){
+    public void Reset(int reset_counter){
         // ocean
-        oceanRenderer._globalWindSpeed = globalWindSpeed[reset_counter];
+        reset_counter = reset_counter % windSpeed.Length;
+        wavesRenderer._windSpeed = windSpeed[reset_counter];
 
         // waves
         wavesRenderer._weight = waveWindWeight[reset_counter];
-        reset_counter += 1;
 
-        Debug.Log("Wind speed: " + oceanRenderer._globalWindSpeed);
-        Debug.Log("Wave weight: " + wavesRenderer._weight);
+        wavesRenderer._waveDirectionHeadingAngle = waveAngle[reset_counter];
+        //reset_counter += 1;
+
+        // Debug.Log("Wind speed: " + oceanRenderer._globalWindSpeed + " Counter: " + reset_counter);
+        // Debug.Log("Wave weight: " + wavesRenderer._weight + " Counter: " + reset_counter);
 
     }
 

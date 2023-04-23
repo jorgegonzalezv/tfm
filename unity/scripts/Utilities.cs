@@ -45,7 +45,11 @@ namespace tfm {
 
     public class Randomize {
         
-        public static int randomInt(int lower, int upper){
+        // public static int randomInt(int lower, int upper){
+        //     return Random.Range(lower, upper);
+        // }
+
+        public static float randomFloat(float lower, float upper){
             return Random.Range(lower, upper);
         }
     }
