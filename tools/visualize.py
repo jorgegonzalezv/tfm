@@ -5,44 +5,49 @@ import pandas as pd
 
 DIR = os.path.join("/Users","jorge", "prueba-crest", "dataset")
 
-SUPERSIZE = 4 # TODO from config?
+SUPERSIZE = 4 # screenshot.cs
 
 # read annotations
+columns = ["filename", "xmax", "ymax", "xmin", "ymin", "label"]
 labels = pd.read_csv(os.path.join(DIR, "debug.txt"), header=None)
+labels.columns = columns
 
-for _, row in labels.iterrows():
-    im_path = os.path.join(DIR, "screenshot{}.png".format(int(row[0])))
+for imagepath in sorted(os.listdir(DIR)):
+    if imagepath.split(".")[-1] != "png":
+        continue
+
+    # if int(imagepath.split("screenshot")[-1].split(".")[0]) != 13:
+    #     continue
+
+    im_path = os.path.join(DIR, imagepath)
     im = plt.imread(im_path)
     im_h, im_w, _ = im.shape
+
+    rows = labels[labels.filename == int(imagepath.split("screenshot")[-1].split(".")[0])] 
 
     # display im in subplot figure
     fig, ax = plt.subplots()
     ax.imshow(im)
+    plt.title(imagepath)
+    for _, row in rows.iterrows():
+        # flip vertical axis
+        # xmax, ymax, xmin, ymin = row[1:5] * SUPERSIZE
+        xmin, ymin, xmax, ymax = row[1:5] * SUPERSIZE
+        # print(xmin, ymin, xmax, ymax)
+        ymax_ = im_h - ymax
+        ymax = im_h - ymin # true ymax
+        ymin = ymax_
+        # add bbox
+        w = abs(xmax - xmin) 
+        h = abs(ymax - ymin)
 
-    # flip vertical axis
-    xmax, ymax, xmin, ymin = row[1:5] * SUPERSIZE
-    ymax = im_h - ymax 
-    ymin = im_h - ymin # true ymax
+        padding = 0
+        originX = min(xmin, xmax) - padding # min(row[1], row[3]) - padding 
+        originY = min(ymin, ymax) - padding # min(row[2], row[4]) - padding
 
-    # add bbox
-    w = abs(xmax - xmin) 
-    h = abs(ymax - ymin)
-
-    padding = 0
-    originX = min(xmin, xmax) - padding # min(row[1], row[3]) - padding 
-    originY = min(ymin, ymax) - padding # min(row[2], row[4]) - padding
-
-    rect = patches.Rectangle((originX, originY), w + 2 * padding, h + 2 * padding, linewidth=1, edgecolor='r', facecolor='none')
-    ax.add_patch(rect)
-
-    w = 1
-    h = 1
-
-    rect = patches.Rectangle((xmax, ymax), w + 2 * padding, h + 2 * padding, linewidth=1, edgecolor='r', facecolor='none', color='yellow')
-    ax.add_patch(rect)
-
-    rect = patches.Rectangle((xmin, ymin), w + 2 * padding, h + 2 * padding, linewidth=1, edgecolor='r', facecolor='none')
-    ax.add_patch(rect)
-
-    # hold plot
-    plt.show()
+        print(imagepath,": ", (originX, originY), w + 2 * padding, h + 2 * padding)
+        rect = patches.Rectangle((originX, originY), w + 2 * padding, h + 2 * padding, linewidth=1, edgecolor='r', facecolor='none')
+        ax.add_patch(rect)
+    
+    plt.waitforbuttonpress(0)
+    plt.close()
