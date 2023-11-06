@@ -22,6 +22,7 @@ public class OceanManager : MonoBehaviour
     private float[] windSpeed = {0, 10, 20, 30, 50, 70, 90, 120};
     private float[] waveWindWeight = {0f, 0.1f, 0.2f, 0.3f, 0.5f, 0.7f, 0.9f, 1f};
     private float[] waveAngle = {-180, -100, -20, 0, 50, 70, 90, 120};
+    public int max_counter = 8;
 
     // Start is called before the first frame update
     void Start(){

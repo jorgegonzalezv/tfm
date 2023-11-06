@@ -12,7 +12,7 @@ public class CamaraManager: MonoBehaviour{
 
     // how far from the target it will be
     private Vector3 offset;
-    private Vector3 offset_init = new Vector3(0.0f, 30.0f, -100.0f);
+    private Vector3 offset_init = new Vector3(0.0f, 30.0f, -130.0f);
 
     // speed of camera(drone) flight
     private float smoothSpeed = 0.125f;
@@ -20,18 +20,20 @@ public class CamaraManager: MonoBehaviour{
 
     // dataset parameters
     // private int reset_counter;
-    private float[] flight_height = {5, 10, 15, 20, 30, 40, 50, 60};
-
+    private float[] flight_height = {5, 10, 15, 20, 30, 40, 60, 100, 150};
+    public int max_counter = 9;
 
     void start(){
         offset = offset_init;
     }
 
+
     void LateUpdate(){  
         // update offset of camera as a drone flight
-        // if (offset[2] >= 100){
-        //    offset = offset_end;
-        // }
+        step();  
+    }
+    
+    void step(){
         offset = offset + new Vector3(0.0f, 0.0f, 1.0f) * delta_t;
         Vector3 desiredPosition = target_position + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
@@ -45,8 +47,20 @@ public class CamaraManager: MonoBehaviour{
         // target_position = target_position_;
         offset = offset_init;
         offset[1] = flight_height[reset_counter];
-        
+        transform.position = target_position + offset;
+        transform.LookAt(target_position);
+        // step();
+        // step();
+        // step();
         // reset_counter += 1;
         // Debug.Log("Drone height: " + offset[1] + " Counter: "+ reset_counter);
+    }
+
+    public void Freeze(){
+        enabled = false;
+    }
+
+    public void UnFreeze(){
+        enabled = true;
     }
 }
