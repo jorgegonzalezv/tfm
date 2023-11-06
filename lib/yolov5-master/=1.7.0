@@ -1,0 +1,7 @@
+Collecting torch
+  Using cached https://files.pythonhosted.org/packages/36/f1/54ffb7f517e040667d027e8a9ae82ed6782c894e60333c7f884e4e776a41/torch-1.10.2-cp36-none-macosx_10_9_x86_64.whl
+Collecting dataclasses; python_version < "3.7" (from torch)
+  Using cached https://files.pythonhosted.org/packages/fe/ca/75fac5856ab5cfa51bbbcefa250182e50441074fdc3f803f6e76451fab43/dataclasses-0.8-py3-none-any.whl
+Requirement already satisfied: typing-extensions in /Users/jorge/fun/tfm/venv/lib/python3.6/site-packages (from torch) (4.1.1)
+Installing collected packages: dataclasses, torch
+Successfully installed dataclasses-0.8 torch-1.10.2
